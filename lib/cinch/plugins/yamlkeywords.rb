@@ -25,9 +25,9 @@ module Cinch
         end
       end
 
-      match(/keyword (\S+) (.+)$/,  method: :keyword_define)
-      match(/keyword '(.*)' (.+)$/, method: :keyword_define)
-      match(/keyword "(.*)" (.+)$/, method: :keyword_define)
+      match(/keyword '(.*)' (.+)$/, group: :define, method: :keyword_define)
+      match(/keyword "(.*)" (.+)$/, group: :define, method: :keyword_define)
+      match(/keyword (\S+) (.+)$/,  group: :define, method: :keyword_define)
       def keyword_define(m, keyword, definition)
         if @keywords[keyword]
           m.reply "Redefining '#{keyword}' from: '#{@keywords[keyword]}' to: '#{definition}'."
@@ -42,6 +42,17 @@ module Cinch
       def keyword_check(m, keyword)
         if @keywords[keyword]
           m.reply "'#{keyword}' is defined as: '#{@keywords[keyword]}'."
+        else
+          m.reply "'#{keyword}' is not defined."
+        end
+      end
+
+      match(/forget (\S+)$/, method: :keyword_forget)
+      def keyword_forget(m, keyword)
+        if @keywords[keyword]
+          m.reply "'#{keyword}' was defined as: '#{@keywords[keyword]}'."
+          @keywords.delete(keyword)
+          update_store
         else
           m.reply "'#{keyword}' is not defined."
         end
