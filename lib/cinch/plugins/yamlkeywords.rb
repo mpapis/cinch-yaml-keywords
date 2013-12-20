@@ -36,9 +36,8 @@ module Cinch
 
       def keyword_check(m, keyword)
         if @keywords[keyword]
-          m.reply "'#{keyword}' is defined as: '#{@keywords[keyword]}'."
-        else
-          m.reply "'#{keyword}' is not defined."
+        then m.reply "'#{keyword}' is defined as: '#{@keywords[keyword]}'."
+        else m.reply "'#{keyword}' is not defined."
         end
       end
 
@@ -66,7 +65,7 @@ module Cinch
           m.message
         when /^!keywords/
           keywords(m)
-        when /^!keyword '(.+)' (.+)$/, /^!keyword "(.+)" (.+)$/, /^!keyword (\S+) (.+)$/
+        when /^!keyword '([^']+)' (.+)$/, /^!keyword "([^"]+)" (.+)$/, /^!keyword (\S+) (.+)$/
           keyword_define(m, $1, $2)
         when /^!keyword (\S+)$/, /^!keyword\? (.+)$/
           keyword_check(m, $1)
