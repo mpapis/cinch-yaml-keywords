@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'cinch-yaml-keywords'
-  s.version     = '1.2.2'
+  s.version     = '1.3.0'
   s.summary     =
   s.description = 'A Cinch plugin to define keywords and display description when keyword matches, keywords are saved in yaml file for persistence.'
   s.authors     = ['Michal Papis']
