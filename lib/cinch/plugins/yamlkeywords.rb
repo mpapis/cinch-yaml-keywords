@@ -8,14 +8,15 @@ module Cinch
       def initialize(*args)
         super
         if File.exist?('keywords.yaml')
-          @keywords = YAML.load_file('keywords.yaml')
-        else
-          @keywords = {}
+        then @keywords = YAML.load_file('keywords.yaml')
+        else @keywords = {}
         end
       end
 
       def keywords(m)
-        if @keywords.size > 0
+        if
+          @keywords.size > 0
+        then
           m.reply "Keywords start:"
           @keywords.each{|k,v| m.reply "'#{k}': '#{v}'." }
           m.reply "Keywords end."
@@ -26,9 +27,8 @@ module Cinch
 
       def keyword_define(m, keyword, definition)
         if @keywords[keyword]
-          m.reply "Redefining '#{keyword}' from: '#{@keywords[keyword]}' to: '#{definition}'."
-        else
-          m.reply "Defining '#{keyword}' with: '#{definition}'."
+        then m.reply "Redefining '#{keyword}' from: '#{@keywords[keyword]}' to: '#{definition}'."
+        else m.reply "Defining '#{keyword}' with: '#{definition}'."
         end
         @keywords[keyword] = definition
         update_store
@@ -43,7 +43,9 @@ module Cinch
       end
 
       def keyword_forget(m, keyword)
-        if @keywords[keyword]
+        if
+          @keywords[keyword]
+        then
           m.reply "'#{keyword}' was defined as: '#{@keywords[keyword]}'."
           @keywords.delete(keyword)
           update_store
@@ -53,10 +55,8 @@ module Cinch
       end
 
       def find_keyword(m)
-        if
-          keyword = @keywords.keys.find{|k| Regexp.new(k).match(m.message) }
-        then
-          m.reply @keywords[keyword]
+        if keyword = @keywords.keys.find{|k| Regexp.new(k).match(m.message) }
+        then m.reply @keywords[keyword]
         end
       end
 
