@@ -54,9 +54,13 @@ module Cinch
       end
 
       def find_keyword(m)
-        if keyword = @keywords.keys.find{|k| Regexp.new(k).match(m.message) }
-        then m.reply @keywords[keyword]
-        end
+        @keywords.keys.map{|keyword|
+          Regexp.new(keyword).match(m.message)
+        }.compact.sort_by{|matchdata|
+          matchdata.begin(0)
+        }.each{|matchdata|
+          m.reply @keywords[matchdata[0]]
+        }
       end
 
       listen_to :channel
