@@ -66,11 +66,11 @@ module Cinch
           m.message
         when /^!keywords/
           keywords(m)
-        when /keyword '(.*)' (.+)$/, /keyword "(.*)" (.+)$/, /keyword (\S+) (.+)$/
+        when /^!keyword '(.+)' (.+)$/, /^!keyword "(.+)" (.+)$/, /^!keyword (\S+) (.+)$/
           keyword_define(m, $1, $2)
-        when /keyword (\S+)$/, /keyword\? (\S+)$/
+        when /^!keyword (\S+)$/, /^!keyword\? (.+)$/
           keyword_check(m, $1)
-        when /forget (\S+)$/
+        when /^!forget (.+)$/
           keyword_forget(m, $1)
         else
           find_keyword(m)

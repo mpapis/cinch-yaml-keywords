@@ -29,11 +29,11 @@ bot.start
 
 ```irc
 !keywords                         # list all definitions
-!keyword <keyword>                # show single definition
-!keyword <keyword> <definition>   # define without spaces
+!keyword? <keyword>               # show single definition
+!keyword  <keyword>  <definition> # define without spaces
 !keyword '<keyword>' <definition> # define with spaces
 !keyword "<keyword>" <definition> # define with spaces
-!forget <keyword>                 # remove definition
+!forget   <keyword>               # remove definition
 <keyword>                         # display definition
 ```
 
