@@ -14,7 +14,6 @@ module Cinch
         end
       end
 
-      match(/keywords/, method: :keywords)
       def keywords(m)
         if @keywords.size > 0
           m.reply "Keywords start:"
@@ -25,9 +24,6 @@ module Cinch
         end
       end
 
-      match(/keyword '(.*)' (.+)$/, group: :define, method: :keyword_define)
-      match(/keyword "(.*)" (.+)$/, group: :define, method: :keyword_define)
-      match(/keyword (\S+) (.+)$/,  group: :define, method: :keyword_define)
       def keyword_define(m, keyword, definition)
         if @keywords[keyword]
           m.reply "Redefining '#{keyword}' from: '#{@keywords[keyword]}' to: '#{definition}'."
@@ -38,7 +34,6 @@ module Cinch
         update_store
       end
 
-      match(/keyword (\S+)$/, method: :keyword_check)
       def keyword_check(m, keyword)
         if @keywords[keyword]
           m.reply "'#{keyword}' is defined as: '#{@keywords[keyword]}'."
@@ -47,7 +42,6 @@ module Cinch
         end
       end
 
-      match(/forget (\S+)$/, method: :keyword_forget)
       def keyword_forget(m, keyword)
         if @keywords[keyword]
           m.reply "'#{keyword}' was defined as: '#{@keywords[keyword]}'."
@@ -58,11 +52,28 @@ module Cinch
         end
       end
 
-      listen_to :channel
-      def listen(m)
-        if keyword = @keywords.keys.find{|k| Regexp.new(k).match(m.message) }
+      def find_keyword(m)
+        if
+          keyword = @keywords.keys.find{|k| Regexp.new(k).match(m.message) }
         then
           m.reply @keywords[keyword]
+        end
+      end
+
+      listen_to :channel
+      def listen(m)
+        case
+          m.message
+        when /^!keywords/
+          keywords(m)
+        when /keyword '(.*)' (.+)$/, /keyword "(.*)" (.+)$/, /keyword (\S+) (.+)$/
+          keyword_define(m, $1, $2)
+        when /keyword (\S+)$/, /keyword\? (\S+)$/
+          keyword_check(m, $1)
+        when /forget (\S+)$/
+          keyword_forget(m, $1)
+        else
+          find_keyword(m)
         end
       end
 
@@ -73,6 +84,7 @@ module Cinch
           end
         end
       end
+
     end
   end
 end
